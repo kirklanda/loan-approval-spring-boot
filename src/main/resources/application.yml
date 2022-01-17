@@ -1,0 +1,28 @@
+spring:
+  datasource:
+    initialization-mode: always
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/camunda
+    username: postgres
+    password: example
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+    #hibernate:
+    #  ddl-auto=none
+
+camunda.bpm:
+  database:
+    type: postgres
+    schema-update: true
+  admin-user:
+    id: demo
+    password: demo
+    firstName: Demo
+  filter:
+    create: All tasks
