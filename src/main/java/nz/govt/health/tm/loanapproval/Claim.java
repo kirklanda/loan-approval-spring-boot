@@ -23,8 +23,8 @@ public class Claim {
 	
 	@Override
 	public String toString() {
-		return String.format("Claim [id=%d, lastName='%s']", 
-				id, lastName);
+		return String.format("Claim [id=%d, firstName='%s', lastName='%s']", 
+				id, firstName, lastName);
 	}
 	
 	public Long getId() {

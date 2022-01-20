@@ -21,21 +21,21 @@ public class PersistClaimToPostgresDelegate implements JavaDelegate {
 
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
-		JsonValue applicationData = execution.getVariableTyped("claim");
+		JsonValue claimData = execution.getVariableTyped("claim");
 
-		if( applicationData == null) {
-			LOGGER.info("VARIABLE IN DELEGATE IS NULL");
+		if( claimData == null) {
+			LOGGER.info("VARIABLE IN DELEGATE IS NULL!");
 		} else {			
-			LOGGER.info("VARIABLE IN DELEGATE IS NOT NULL");
-			Claim claim = JSON(applicationData.getValue()).mapTo(Claim.class);
-			//Claim claim = JSON("{\"firstName\" : \"Bob\",  \"lastName\" : \"Hope\"}").mapTo(Claim.class);
-			LOGGER.info(claim.toString());
-			LOGGER.info(applicationData.getValue().toString());
+			Claim claim = JSON(claimData.getValue()).mapTo(Claim.class);
 			if(claimRepository != null) {
-				LOGGER.info("Writing to Claim Repository");
-				claimRepository.save(claim);
+				LOGGER.info("Writing to Claim Repository - " + claim.toString());
+				Claim returnedClaim = claimRepository.save(claim);
+				// Overwrite the process variable with the data now persisted in
+				// the database.
+				//execution.setVariable("claim", returnedClaim);
+				execution.setVariable("claim", JSON(returnedClaim).toString());
 			} else {
-				LOGGER.info("Claim Repository is null");
+				LOGGER.info("CLAIM REPOSITORY IS NULL!");
 			}
 		}
 	}

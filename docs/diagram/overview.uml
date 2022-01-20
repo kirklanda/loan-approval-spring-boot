@@ -1,0 +1,18 @@
+@startuml
+title Camunda Business Object Handling - Test and Learn
+package "Service Management" {
+	[Postman as Unqork]
+}
+
+package "Transaction Management" {
+	Claim - [Camunda]
+	[Postman as Unqork] --> Claim : <<HTTP>>
+	[Camunda] *-- [Spring Boot JPA]
+	[Spring Boot JPA] -- [PostgreSQL] : <<JDBC>>
+}
+
+package "Data Platform" {
+	[PostgreSQL] -- [Debezium] : <<CDC>>
+	[Debezium] --[Apache Kafka]
+}
+@enduml

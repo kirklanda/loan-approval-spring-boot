@@ -1,8 +1,9 @@
 # Use postgres/example user/password credentials
 version: '3.1'
 
+# Starts a PostgreSQL database that can be used for testing the Spring Boot
+# application against.
 services:
-
   db:
     image: postgres
     restart: always
@@ -10,9 +11,18 @@ services:
       POSTGRES_PASSWORD: example
     ports:
       - 5432:5432
+    command:
+      - "postgres"
+      - "-c"
+      - "wal_level=logical"
 
   adminer:
     image: adminer
     restart: always
     ports:
-      - 8081:8080
+      - 8087:8080
+
+networks:
+    default:
+        external: true
+        name: microservice-example
